@@ -1,19 +1,19 @@
 #include <torch/extension.h>
 
-at::Tensor integral_image(
-    at::Tensor input);
+torch::Tensor integral_image(
+    torch::Tensor input);
 
-at::Tensor box_convolution_forward(
-    at::Tensor input_integrated,
-    at::Tensor x_min, at::Tensor x_max,
-    at::Tensor y_min, at::Tensor y_max,
+torch::Tensor box_convolution_forward(
+    torch::Tensor input_integrated,
+    torch::Tensor x_min, torch::Tensor x_max,
+    torch::Tensor y_min, torch::Tensor y_max,
     const bool normalize, const bool exact);
 
-std::vector<at::Tensor> box_convolution_backward(
-    at::Tensor input_integrated,
-    at::Tensor x_min, at::Tensor x_max,
-    at::Tensor y_min, at::Tensor y_max,
-    at::Tensor grad_output, at::Tensor output,
+std::vector<torch::Tensor> box_convolution_backward(
+    torch::Tensor input_integrated,
+    torch::Tensor x_min, torch::Tensor x_max,
+    torch::Tensor y_min, torch::Tensor y_max,
+    torch::Tensor grad_output, torch::Tensor output,
     const float reparametrization_h, const float reparametrization_w,
     const bool normalize, const bool exact,
     const bool input_needs_grad,
@@ -21,8 +21,8 @@ std::vector<at::Tensor> box_convolution_backward(
     const bool y_min_needs_grad, const bool y_max_needs_grad);
 
 void clip_parameters(
-    at::Tensor x_min, at::Tensor x_max,
-    at::Tensor y_min, at::Tensor y_max,
+    torch::Tensor x_min, torch::Tensor x_max,
+    torch::Tensor y_min, torch::Tensor y_max,
     const double reparametrization_h, const double reparametrization_w,
     const double max_input_h, const double max_input_w, const bool exact);
 

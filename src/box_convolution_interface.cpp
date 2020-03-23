@@ -6,14 +6,14 @@
 
 #include "box_convolution.h"
 
-at::Tensor integral_image(at::Tensor input);
+torch::Tensor integral_image(torch::Tensor input);
 
 #define CHECK_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x " must be contiguous")
 
-at::Tensor box_convolution_forward(
-    at::Tensor input_integrated,
-    at::Tensor x_min, at::Tensor x_max,
-    at::Tensor y_min, at::Tensor y_max,
+torch::Tensor box_convolution_forward(
+    torch::Tensor input_integrated,
+    torch::Tensor x_min, torch::Tensor x_max,
+    torch::Tensor y_min, torch::Tensor y_max,
     const bool normalize, const bool exact) {
 
     TORCH_CHECK(input_integrated.device() == x_min.device(),
@@ -47,7 +47,7 @@ at::Tensor box_convolution_forward(
     auto yMaxFrac = at::empty(x_min.sizes(), fracOptions);
 
     // inverse box areas for normalization
-    at::Tensor area;
+    torch::Tensor area;
 
     if (x_min.is_cuda()) {
         gpu::splitParameters(
@@ -138,11 +138,11 @@ at::Tensor box_convolution_forward(
     return output.reshape({batchSize, nInputPlanes * numFilters, h, w});
 }
 
-std::vector<at::Tensor> box_convolution_backward(
-    at::Tensor input_integrated,
-    at::Tensor x_min, at::Tensor x_max,
-    at::Tensor y_min, at::Tensor y_max,
-    at::Tensor grad_output, at::Tensor output,
+std::vector<torch::Tensor> box_convolution_backward(
+    torch::Tensor input_integrated,
+    torch::Tensor x_min, torch::Tensor x_max,
+    torch::Tensor y_min, torch::Tensor y_max,
+    torch::Tensor grad_output, torch::Tensor output,
     const float reparametrization_h, const float reparametrization_w,
     const bool normalize, const bool exact,
     const bool input_needs_grad,
@@ -179,8 +179,8 @@ std::vector<at::Tensor> box_convolution_backward(
 
     // Return value
     // TODO change `nullTensor` to Python `None`
-    at::Tensor nullTensor = at::empty({0}, at::TensorOptions());
-    at::Tensor gradInput = nullTensor;
+    torch::Tensor nullTensor = at::empty({0}, torch::TensorOptions());
+    torch::Tensor gradInput = nullTensor;
 
     // Allocate memory for splitting x_min, x_max, y_min, y_max into integer and fractional parts
     auto intOptions = x_min.options().dtype(at::ScalarType::Int);
@@ -196,12 +196,12 @@ std::vector<at::Tensor> box_convolution_backward(
     auto yMaxFrac = at::empty(x_min.sizes(), fracOptions);
 
     if (input_needs_grad) {
-        at::Tensor grad_output_integrated = integral_image(grad_output);
-        at::Tensor tmpArray = at::empty(
+        torch::Tensor grad_output_integrated = integral_image(grad_output);
+        torch::Tensor tmpArray = at::empty(
             {batchSize, nInputPlanes, numFilters, h, w}, grad_output.options());
         CHECK_CONTIGUOUS(tmpArray);
 
-        at::Tensor area; // box area for normalization
+        torch::Tensor area; // box area for normalization
 
         if (grad_output_integrated.is_cuda()) {
             gpu::splitParametersUpdateGradInput(
@@ -275,10 +275,10 @@ std::vector<at::Tensor> box_convolution_backward(
     } // if (input_needs_grad)
 
     bool paramNeedsGrad[4] = {x_min_needs_grad, x_max_needs_grad, y_min_needs_grad, y_max_needs_grad};
-    at::Tensor gradParam[4] = {nullTensor, nullTensor, nullTensor, nullTensor};
+    torch::Tensor gradParam[4] = {nullTensor, nullTensor, nullTensor, nullTensor};
 
-    at::Tensor tmpArray;
-    at::Tensor area; // box area for normalization
+    torch::Tensor tmpArray;
+    torch::Tensor area; // box area for normalization
     
     bool someParamNeedsGrad = false;
     for (bool needsGrad : paramNeedsGrad) {
@@ -395,8 +395,8 @@ std::vector<at::Tensor> box_convolution_backward(
 }
 
 void clip_parameters(
-    at::Tensor x_min, at::Tensor x_max,
-    at::Tensor y_min, at::Tensor y_max,
+    torch::Tensor x_min, torch::Tensor x_max,
+    torch::Tensor y_min, torch::Tensor y_max,
     const double reparametrization_h, const double reparametrization_w,
     const double max_input_h, const double max_input_w, const bool exact) {
 

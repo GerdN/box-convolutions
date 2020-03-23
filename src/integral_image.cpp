@@ -5,14 +5,14 @@
 
 namespace cpu {
 
-void integral_image(at::Tensor & input, at::Tensor & output) {
+void integral_image(torch::Tensor & input, torch::Tensor & output) {
 
     const int h = input.size(-2);
     const int w = input.size(-1);
     const int nChannels = input.numel() / (h * w);
     
     AT_DISPATCH_ALL_TYPES(input.scalar_type(), "integral_image_forward_cpu", ([&] {
-        using accscalar_t = at::acc_type<scalar_t, false>;
+        using accscalar_t = torch::acc_type<scalar_t, false>;
 
         scalar_t *inputPtr = input.data_ptr<scalar_t>();
         scalar_t *outputPtr = output.data_ptr<scalar_t>();

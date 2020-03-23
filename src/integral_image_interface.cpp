@@ -5,7 +5,7 @@
 
 #define CHECK_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x " must be contiguous")
 
-at::Tensor integral_image(at::Tensor input) {
+torch::Tensor integral_image(torch::Tensor input) {
     TORCH_CHECK(input.dim() >= 2, "integral image input must have >=2 dimensions")
     input = input.contiguous();
     
@@ -15,7 +15,7 @@ at::Tensor integral_image(at::Tensor input) {
     ++outputSize[input.dim() - 2];
     ++outputSize[input.dim() - 1];
 
-    auto output = at::empty(outputSize, input.options());
+    auto output = torch::empty(outputSize, input.options());
     
     if (input.is_cuda()) {
         gpu::integral_image(input, output);

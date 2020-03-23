@@ -5,44 +5,44 @@ enum class Parameter {xMin, xMax, yMin, yMax};
 namespace cpu {
 
 void splitParameters(
-    at::Tensor & x_min   , at::Tensor & x_max   , at::Tensor & y_min   , at::Tensor & y_max   ,
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac);
+    torch::Tensor & x_min   , torch::Tensor & x_max   , torch::Tensor & y_min   , torch::Tensor & y_max   ,
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac);
 
 void splitParametersUpdateGradInput(
-    at::Tensor & x_min   , at::Tensor & x_max   , at::Tensor & y_min   , at::Tensor & y_max   ,
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac);
+    torch::Tensor & x_min   , torch::Tensor & x_max   , torch::Tensor & y_min   , torch::Tensor & y_max   ,
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac);
 
 void splitParametersAccGradParameters(
-    at::Tensor & x_min   , at::Tensor & x_max   , at::Tensor & y_min   , at::Tensor & y_max   ,
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac);
+    torch::Tensor & x_min   , torch::Tensor & x_max   , torch::Tensor & y_min   , torch::Tensor & y_max   ,
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac);
 
 template <bool normalize, bool exact>
 void boxConvUpdateOutput(
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac,
-    at::Tensor & area, at::Tensor & input_integrated, at::Tensor & output);
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac,
+    torch::Tensor & area, torch::Tensor & input_integrated, torch::Tensor & output);
 
 template <bool normalize, bool exact>
 void boxConvUpdateGradInput(
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac,
-    at::Tensor & area, at::Tensor & grad_output_integrated, at::Tensor & tmpArray);
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac,
+    torch::Tensor & area, torch::Tensor & grad_output_integrated, torch::Tensor & tmpArray);
 
 template <bool exact>
 void boxConvAccGradParameters(
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac,
-    at::Tensor & input_integrated, at::Tensor & tmpArray, Parameter parameter);
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac,
+    torch::Tensor & input_integrated, torch::Tensor & tmpArray, Parameter parameter);
 
 void clipParameters(
-    at::Tensor & paramMin, at::Tensor & paramMax,
+    torch::Tensor & paramMin, torch::Tensor & paramMax,
     const double reparametrization, const double minSize, const double maxSize);
 
-at::Tensor computeArea(
-    at::Tensor x_min, at::Tensor x_max, at::Tensor y_min, at::Tensor y_max,
+torch::Tensor computeArea(
+    torch::Tensor x_min, torch::Tensor x_max, torch::Tensor y_min, torch::Tensor y_max,
     const bool exact, const bool needXDeriv = true, const bool needYDeriv = true);
 
 }
@@ -50,44 +50,44 @@ at::Tensor computeArea(
 namespace gpu {
 
 void splitParameters(
-    at::Tensor & x_min   , at::Tensor & x_max   , at::Tensor & y_min   , at::Tensor & y_max   ,
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac);
+    torch::Tensor & x_min   , torch::Tensor & x_max   , torch::Tensor & y_min   , torch::Tensor & y_max   ,
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac);
 
 void splitParametersUpdateGradInput(
-    at::Tensor & x_min   , at::Tensor & x_max   , at::Tensor & y_min   , at::Tensor & y_max   ,
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac);
+    torch::Tensor & x_min   , torch::Tensor & x_max   , torch::Tensor & y_min   , torch::Tensor & y_max   ,
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac);
 
 void splitParametersAccGradParameters(
-    at::Tensor & x_min   , at::Tensor & x_max   , at::Tensor & y_min   , at::Tensor & y_max   ,
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac);
+    torch::Tensor & x_min   , torch::Tensor & x_max   , torch::Tensor & y_min   , torch::Tensor & y_max   ,
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac);
 
 template <bool normalize, bool exact>
 void boxConvUpdateOutput(
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac,
-    at::Tensor & area, at::Tensor & input_integrated, at::Tensor & output);
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac,
+    torch::Tensor & area, torch::Tensor & input_integrated, torch::Tensor & output);
 
 template <bool normalize, bool exact>
 void boxConvUpdateGradInput(
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac,
-    at::Tensor & area, at::Tensor & grad_output_integrated, at::Tensor & tmpArray);
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac,
+    torch::Tensor & area, torch::Tensor & grad_output_integrated, torch::Tensor & tmpArray);
 
 template <bool exact>
 void boxConvAccGradParameters(
-    at::Tensor & xMinInt , at::Tensor & xMaxInt , at::Tensor & yMinInt , at::Tensor & yMaxInt ,
-    at::Tensor & xMinFrac, at::Tensor & xMaxFrac, at::Tensor & yMinFrac, at::Tensor & yMaxFrac,
-    at::Tensor & input_integrated, at::Tensor & tmpArray, Parameter parameter);
+    torch::Tensor & xMinInt , torch::Tensor & xMaxInt , torch::Tensor & yMinInt , torch::Tensor & yMaxInt ,
+    torch::Tensor & xMinFrac, torch::Tensor & xMaxFrac, torch::Tensor & yMinFrac, torch::Tensor & yMaxFrac,
+    torch::Tensor & input_integrated, torch::Tensor & tmpArray, Parameter parameter);
 
 void clipParameters(
-    at::Tensor & paramMin, at::Tensor & paramMax,
+    torch::Tensor & paramMin, torch::Tensor & paramMax,
     const double reparametrization, const double minSize, const double maxSize);
 
-at::Tensor computeArea(
-    at::Tensor x_min, at::Tensor x_max, at::Tensor y_min, at::Tensor y_max,
+torch::Tensor computeArea(
+    torch::Tensor x_min, torch::Tensor x_max, torch::Tensor y_min, torch::Tensor y_max,
     const bool exact, const bool needXDeriv = true, const bool needYDeriv = true);
 
 }
