@@ -1,6 +1,8 @@
-# coding: utf-8
 # frameworks/packages
 #This script applies a deep convolutional network including box-convolution to the C-Mapss Turbofan dataset (FD001)
+#Module box_convolution is from shrubb/box-convolutions
+#Required packages: libgcc, pyqt, git, pytorch, torchvision, C Compiler, OpenCV, requests, gxx_linux-64, scikit-learn
+#Tested on Ubuntu 18.04, Pytorch 1.4
 from __future__ import print_function
 import pandas as pd
 import numpy as np
