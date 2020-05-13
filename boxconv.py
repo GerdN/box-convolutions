@@ -64,20 +64,13 @@ print(df_test.head())
 # Input sequences, find max seq test length
 seq_selected = max(df_test.groupby('unit').max()['time'])
 print("maximum length of test sequence", seq_selected)
-#seq_selected may be used to dilberately chosse length of windows/sequences
+#seq_selected may be used to deliberately choose length of windows/sequences
 seq_selected = 30
 
-#padding
-#df_train_padded.iloc = pad_sequence(df_train, batch_first=True, padding_value=0)
-#df_test_padded.iloc = pad_sequence(df_test, batch_first=True, padding_value=0)
-# ## Input train sequences:
-# The train sequences for input are prepared by using the seq_selected length. For every unit sequences of length seq_selected are selected from the start of the cycle and are stacked in the train dataset. Each sequence is in the dimension of [1 x seq_selected x 18]. This is done for every unit until the max cycle - seq_selected cycle.
-
-
 # Preparing inputs
-max_list = list(df_train.groupby('unit').max()['time'])     # creating a list of max cycles in the training dataset
+max_list = list(df_train.groupby('unit').max()['time'])     # list of max cycles in training data
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')     # for converting the GPU supported tensors in case of using GPU
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')     # convert GPU supported tensors if using GPU
 
 i = 0
 X_train = Variable(torch.Tensor([]).float()).to(device)
